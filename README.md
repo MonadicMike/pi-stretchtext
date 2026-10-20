@@ -3,15 +3,15 @@
 Stretchtext replies for [Pi](https://pi.dev): the model answers in one to three short sentences, and
 the phrases that hold more open in place into longer text, which may hold further phrases to open.
 
-![Opening stretches in a reply about Leonhard Euler](docs/demo.gif)
+![Opening stretches in a reply about Leonhard Euler](https://raw.githubusercontent.com/MonadicMike/pi-stretchtext/master/docs/demo.gif)
 
 ## Install
 
 ```bash
-pi install git:github.com/MonadicMike/pi-stretchtext
+pi install npm:pi-stretchtext
 ```
 
-Or copy this folder to `~/.pi/agent/extensions/stretchtext/`.
+Or from git: `pi install git:github.com/MonadicMike/pi-stretchtext`.
 
 ## Set up
 

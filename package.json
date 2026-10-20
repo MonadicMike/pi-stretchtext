@@ -5,9 +5,12 @@
 	"type": "module",
 	"license": "MIT",
 	"repository": "github:MonadicMike/pi-stretchtext",
+	"homepage": "https://github.com/MonadicMike/pi-stretchtext#readme",
 	"keywords": ["pi-package", "pi-extension", "stretchtext"],
+	"files": ["index.ts", "src", "LICENSE", "README.md"],
 	"pi": {
-		"extensions": ["./index.ts"]
+		"extensions": ["./index.ts"],
+		"image": "https://raw.githubusercontent.com/MonadicMike/pi-stretchtext/master/docs/demo.gif"
 	},
 	"scripts": {
 		"check": "tsc --noEmit"
