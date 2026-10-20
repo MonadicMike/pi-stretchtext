@@ -28,8 +28,8 @@ In regular mode the keyboard shortcuts below still work.
 
 | Action | Fullscreen | Any mode |
 |---|---|---|
-| Open a stretch | click its underlined short form | `alt+down`, then its letter |
-| Close a stretch | click the « after it | `alt+up`, then its letter |
+| Open a stretch | click its underlined short form | `alt+o`, then its letter |
+| Close a stretch | click the « after it | `alt+c`, then its letter |
 
 ## License
 

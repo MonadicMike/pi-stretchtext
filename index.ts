@@ -1,7 +1,7 @@
 // stretchtext: cc-stretch (https://github.com/pro-vi/cc-stretch) for Pi.
 // Replies carry `{{short|long}}` stretches. Pi draws each closed one as its underlined short form;
-// in fullscreen a click on it opens it in place and a click on « closes it. alt+down puts a letter
-// over each closed stretch and typing it opens it; alt+up does the same over each « to close.
+// in fullscreen a click on it opens it in place and a click on « closes it. alt+o puts a letter
+// over each closed stretch and typing it opens it; alt+c does the same over each « to close.
 
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 
@@ -98,11 +98,11 @@ export default function stretchtext(pi: ExtensionAPI) {
 
 	pi.on("session_shutdown", () => animator.stop());
 
-	pi.registerShortcut("alt+down", {
+	pi.registerShortcut("alt+o", {
 		description: "stretchtext: letters over closed stretches, to open one",
 		handler: (ctx) => askForLetter(ctx, "open"),
 	});
-	pi.registerShortcut("alt+up", {
+	pi.registerShortcut("alt+c", {
 		description: "stretchtext: letters over open stretches, to close one",
 		handler: (ctx) => askForLetter(ctx, "close"),
 	});
