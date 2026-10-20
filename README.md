@@ -3,6 +3,8 @@
 Stretchtext replies for [Pi](https://pi.dev): the model answers in one to three short sentences, and
 the phrases that hold more open in place into longer text, which may hold further phrases to open.
 
+![Opening stretches in a reply about Leonhard Euler](docs/demo.gif)
+
 ## Install
 
 ```bash
