@@ -35,6 +35,15 @@ const NO_START = /[\p{Pe}\p{Pf},.:;!?，。、；：？！…·ぁぃぅぇぉ�
 /** Characters a row may not end with. */
 const NO_END = /[\p{Ps}\p{Pi}]/u;
 const SEGMENTER = new Intl.Segmenter(undefined, { granularity: "word" });
+/**
+ * A code span or inline math, as Pi's Markdown finds them: `code`, \(…\), \[…\], $$…$$, $…$. Each
+ * stays whole within its word, so no paint lands inside it, where Markdown would show it as text or
+ * LaTeX would take it for an argument.
+ */
+const SPAN = String.raw`(` + "`+" + String.raw`)[^]*?\1|\\\(.*?\\\)|\\\[.*?\\\]|\$\$.*?\$\$|\$(?!\s).*?\$`;
+const HAS_SPAN = new RegExp(SPAN);
+/** A word, spans in it whole even across spaces, or a run of spaces. */
+const WORD_OR_SPACES = new RegExp(String.raw`(?:${SPAN}|\S)+|\s+`, "g");
 
 /**
  * The long form at `progress`: 0 shows only the anchors, 1 shows all of it. `draw` writes a nested
@@ -112,15 +121,15 @@ function reveal(run: Atom[], side: Side, progress: number): Atom[] {
 function tokenize(long: readonly Segment[]): Token[] {
 	return long.flatMap((part): Token[] =>
 		typeof part === "string"
-			? part
-					.split(/(\s+)/)
-					.filter((text) => text !== "")
-					.flatMap((text): Token[] =>
-						/^\s+$/.test(text) ? [{ kind: "space", text }] : breakables(text).map((word) => ({ kind: "word", text: word })),
-					)
+			? (part.match(WORD_OR_SPACES) ?? []).flatMap((text): Token[] =>
+					/^\s+$/.test(text) ? [{ kind: "space", text }] : piecesOfWord(text).map((word) => ({ kind: "word", text: word })),
+				)
 			: [{ kind: "nested", stretch: part }],
 	);
 }
+
+/** A word cut where a row may break, or whole when it holds code or math. */
+const piecesOfWord = (word: string) => (HAS_SPAN.test(word) ? [word] : breakables(word));
 
 /**
  * One part of a line split at spaces, cut into the pieces a row may break between and growth adds
@@ -178,7 +187,7 @@ function anchorsOf(short: string, tokens: Token[]): ReadonlySet<number> {
 	return anchors;
 }
 
-const wordsIn = (text: string) => text.split(/\s+/).flatMap(breakables);
+const wordsIn = (text: string) => (text.match(WORD_OR_SPACES) ?? []).filter((word) => !/^\s+$/.test(word)).flatMap(piecesOfWord);
 
 const wordsOf = (token: Token) => (token.kind === "word" ? [token.text] : token.kind === "nested" ? wordsIn(token.stretch.short) : []);
 
